@@ -47,6 +47,6 @@ exports.autenticarUsuario = async (req, res) => {
       }
     )
   } catch (error) {
-    res.status(500).json({ msg: 'hubo un error' })
+    res.status(500).json({ msg: 'hubo un error en el servidor' })
   }
 }
