@@ -34,7 +34,7 @@ exports.crearUsuario = async (req, res) => {
 
 exports.buscarUsuarios = async (req, res) => {
   try {
-    const usuarioEncontrado = await Usuario.find()
+    const usuarioEncontrado = await Usuario.find().select('-contrasena')
     if (!usuarioEncontrado) {
       res.status(400).json({ msg: 'No se encontraron usuarios' })
       return
@@ -50,12 +50,14 @@ exports.buscarUsuarios = async (req, res) => {
 
 exports.buscarUsuario = async (req, res) => {
   try {
-    const usuarioEncontrado = await Usuario.findById(req.params.id)
+    const usuarioEncontrado = await Usuario.findById(req.params.id).select(
+      '-contrasena'
+    )
     if (!usuarioEncontrado) {
       res.status(400).json({ msg: 'No se encontro el usuario' })
       return
     }
-    usuarioEncontrado.contrasena = ''
+
     res.status(200).json({
       msg: 'busqueda realizada con exito',
       data: usuarioEncontrado,
@@ -67,12 +69,14 @@ exports.buscarUsuario = async (req, res) => {
 
 exports.perfilUsuario = async (req, res) => {
   try {
-    const usuarioEncontrado = await Usuario.findById(req.logueado.id)
+    const usuarioEncontrado = await Usuario.findById(req.logueado.id).select(
+      '-contrasena'
+    )
     if (!usuarioEncontrado) {
       res.status(400).json({ msg: 'No se encontro el usuario' })
       return
     }
-    usuarioEncontrado.contrasena = ''
+
     res.status(200).json({
       msg: 'busqueda realizada con exito',
       data: usuarioEncontrado,
