@@ -129,7 +129,7 @@
  * @swagger
  * /api/usuarios/{id}:
  *  delete:
- *      description: Modificar un usuario por id, para poder modificar un usuario tiene que tener el rol de administrador o ser el usuario logeado para modificacar sus propios datos
+ *      description: Eliminar un usuario por id
  *      tags: [Usuarios]
  *      parameters:
  *        - name: id
