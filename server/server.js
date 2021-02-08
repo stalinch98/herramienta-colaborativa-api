@@ -25,6 +25,8 @@ app.use('/api/usuarios', require('./routes/usuario.routes'))
 app.use('/api/login', require('./routes/auth.routes'))
 app.use('/api/carrera', require('./routes/carrera.routes'))
 app.use('/api/periodo', require('./routes/periodo.routes'))
+app.use('/api/asignatura', require('./routes/asignatura.routes'))
+app.use('/api/tema', require('./routes/tema.routes'))
 
 app.get('/', (req, res) => {
   res.send('Server UP')
