@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const PeriodoSchema = new mongoose.Schema(
+const PeriodoSchema = mongoose.Schema(
   {
     periodo: {
       type: Number,
