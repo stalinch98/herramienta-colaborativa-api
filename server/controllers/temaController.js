@@ -16,7 +16,7 @@ exports.crearTema = async (req, res) => {
     const temaEncontrado = await Tema.findOne({ nombre })
     if (temaEncontrado) {
       res.status(400).json({
-        msg: 'La tema con ese nombre ya existe',
+        msg: 'El tema con ese nombre ya existe',
         data: temaEncontrado,
       })
       return
@@ -96,7 +96,7 @@ exports.modificarTema = async (req, res) => {
       { new: true }
     )
     res.status(200).json({
-      msg: 'tema modificada con exito',
+      msg: 'tema modificado con exito',
       data: temaEncontrado,
     })
   } catch (error) {
