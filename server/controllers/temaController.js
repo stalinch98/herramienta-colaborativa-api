@@ -58,7 +58,10 @@ exports.crearTema = async (req, res) => {
 exports.buscarTemas = async (req, res) => {
   try {
     // buscar en la db
-    const temas = await Tema.find({ padre: { $exists: true } })
+    const temas = await Tema.find({
+      padre: { $exists: true },
+      asignatura: req.params.id,
+    })
       .populate({ path: 'padre', select: 'nombre' })
       .populate({ path: 'asignatura', select: 'nombre' })
       .exec()
@@ -170,7 +173,10 @@ exports.eliminarTema = async (req, res) => {
 exports.buscarTemasPadres = async (req, res) => {
   try {
     // buscar en la db
-    const temasPadre = await Tema.find({ padre: { $exists: false } })
+    const temasPadre = await Tema.find({
+      padre: { $exists: false },
+      asignatura: req.params.id,
+    })
       .populate({ path: 'asignatura', select: 'nombre' })
       .exec()
 

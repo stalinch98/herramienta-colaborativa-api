@@ -15,12 +15,7 @@ router.post(
   asignaturaController.crearAsignatura
 )
 
-router.get(
-  '/',
-  authToken,
-  administrador,
-  asignaturaController.buscarAsignaturas
-)
+router.get('/', authToken, asignaturaController.buscarAsignaturas)
 
 router.put(
   '/:id',
