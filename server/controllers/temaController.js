@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator')
 const Tema = require('../models/Tema')
+const { asignaturasCoordinador } = require('../utils/coordinador')
 
 // crearTema ingresa una tema en la base de datos
 exports.crearTema = async (req, res) => {
@@ -11,6 +12,21 @@ exports.crearTema = async (req, res) => {
   }
 
   try {
+    // Revisar si es coordinador de la materia
+    const { asignatura } = req.body
+    const esCoordinador = await asignaturasCoordinador(
+      req.logueado.id,
+      asignatura
+    )
+
+    if (!esCoordinador) {
+      res.status(401).json({
+        msg:
+          'Permisos insuficientes para realizar la accion no es coordinador de la asignatura',
+      })
+      return
+    }
+
     // revisar si ya existe en caso de existir retornarla
     const { nombre } = req.body
     const temaEncontrado = await Tema.findOne({ nombre })
@@ -42,7 +58,10 @@ exports.crearTema = async (req, res) => {
 exports.buscarTemas = async (req, res) => {
   try {
     // buscar en la db
-    const temas = await Tema.find({ padre: { $exists: true } })
+    const temas = await Tema.find({
+      padre: { $exists: true },
+      asignatura: req.params.id,
+    })
       .populate({ path: 'padre', select: 'nombre' })
       .populate({ path: 'asignatura', select: 'nombre' })
       .exec()
@@ -89,6 +108,20 @@ exports.modificarTema = async (req, res) => {
       return
     }
 
+    // Revisar si es coordinador de la materia
+    const esCoordinador = await asignaturasCoordinador(
+      req.logueado.id,
+      temaEncontrado.asignatura.toString()
+    )
+
+    if (!esCoordinador) {
+      res.status(401).json({
+        msg:
+          'Permisos insuficientes para realizar la accion no es coordinador de la asignatura',
+      })
+      return
+    }
+
     // Modificar en la db
     temaEncontrado = await Tema.findByIdAndUpdate(
       { _id: req.params.id },
@@ -113,6 +146,21 @@ exports.eliminarTema = async (req, res) => {
       res.status(404).json({ msg: 'Tema a eliminar no encontrado' })
       return
     }
+
+    // Revisar si es coordinador de la materia
+    const esCoordinador = await asignaturasCoordinador(
+      req.logueado.id,
+      temaEncontrado.asignatura.toString()
+    )
+
+    if (!esCoordinador) {
+      res.status(401).json({
+        msg:
+          'Permisos insuficientes para realizar la accion no es coordinador de la asignatura',
+      })
+      return
+    }
+
     // Eliminar en la db
     await Tema.findOneAndRemove({ _id: req.params.id })
     res.status(200).json({ msg: 'Tema eliminado con exito' })
@@ -125,7 +173,10 @@ exports.eliminarTema = async (req, res) => {
 exports.buscarTemasPadres = async (req, res) => {
   try {
     // buscar en la db
-    const temasPadre = await Tema.find({ padre: { $exists: false } })
+    const temasPadre = await Tema.find({
+      padre: { $exists: false },
+      asignatura: req.params.id,
+    })
       .populate({ path: 'asignatura', select: 'nombre' })
       .exec()
 
