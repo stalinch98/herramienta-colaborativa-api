@@ -48,6 +48,24 @@ exports.buscarUsuarios = async (req, res) => {
   }
 }
 
+exports.buscarDocentes = async (req, res) => {
+  try {
+    const usuarioEncontrado = await Usuario.find({ rol: 'docente' }).select(
+      '-contrasena'
+    )
+    if (!usuarioEncontrado) {
+      res.status(400).json({ msg: 'No se encontraron usuarios' })
+      return
+    }
+    res.status(200).json({
+      msg: 'busqueda realizada con exito',
+      data: usuarioEncontrado,
+    })
+  } catch (error) {
+    res.status(500).json({ msg: 'hubo un error en el servidor' })
+  }
+}
+
 exports.buscarUsuario = async (req, res) => {
   try {
     const usuarioEncontrado = await Usuario.findById(req.params.id).select(

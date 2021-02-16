@@ -56,6 +56,21 @@
 
 /**
  * @swagger
+ * /api/usuarios/docente:
+ *  get:
+ *      description: Obtener todos los usuarios docentes de la base de datos
+ *      tags: [Usuarios]
+ *      responses:
+ *          200:
+ *              description: busqueda realizada con exito
+ *          400:
+ *              description: No se encontraron usuarios
+ *          500:
+ *              description: hubo un error en el servidor
+ */
+
+/**
+ * @swagger
  * /api/usuarios/perfil:
  *  get:
  *      description: Obtener el perfil del usuario logeado por el token
