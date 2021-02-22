@@ -150,7 +150,7 @@ exports.docentesAsignatura = async (req, res) => {
       { new: true }
     )
     res.status(200).json({
-      msg: 'Asignatura modificada con exito',
+      msg: 'Docentes actualizados con exito',
       data: asignaturaEncontrada,
     })
   } catch (error) {

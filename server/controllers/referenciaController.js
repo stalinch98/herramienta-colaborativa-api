@@ -12,8 +12,11 @@ exports.crearReferencia = async (req, res) => {
 
   try {
     // revisar si ya existe en caso de existir retornarla
-    const { referencia } = req.body
-    const referenciaEncontrado = await Referencia.findOne({ referencia })
+    const { referencia, asignatura } = req.body
+    const referenciaEncontrado = await Referencia.findOne({
+      referencia,
+      asignatura,
+    })
     if (referenciaEncontrado) {
       res.status(400).json({
         msg: 'La referencia ya existe',
