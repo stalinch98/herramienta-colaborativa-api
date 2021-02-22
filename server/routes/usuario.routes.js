@@ -19,6 +19,7 @@ router.post(
 )
 
 router.get('/perfil', auth, usuarioController.perfilUsuario)
+router.get('/docente', auth, usuarioController.buscarDocentes)
 
 router.get('/', auth, usuarioController.buscarUsuarios)
 

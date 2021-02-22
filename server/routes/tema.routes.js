@@ -14,7 +14,7 @@ router.post(
   [check('asignatura', 'La asignatura es requerida').not().isEmpty()],
   temaController.crearTema
 )
-router.get('/padre .', authToken, temaController.buscarTemasPadres)
+router.get('/padre/:id', authToken, temaController.buscarTemasPadres)
 router.get('/:id', authToken, temaController.buscarTemas)
 
 router.put('/:id', authToken, temaController.modificarTema)

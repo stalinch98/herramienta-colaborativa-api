@@ -13,7 +13,7 @@ exports.crearTema = async (req, res) => {
 
   try {
     // Revisar si es coordinador de la materia
-    const { asignatura } = req.body
+    const { nombre, asignatura } = req.body
     const esCoordinador = await asignaturasCoordinador(
       req.logueado.id,
       asignatura
@@ -28,8 +28,7 @@ exports.crearTema = async (req, res) => {
     }
 
     // revisar si ya existe en caso de existir retornarla
-    const { nombre } = req.body
-    const temaEncontrado = await Tema.findOne({ nombre })
+    const temaEncontrado = await Tema.findOne({ nombre, asignatura })
     if (temaEncontrado) {
       res.status(400).json({
         msg: 'El tema con ese nombre ya existe',
@@ -144,6 +143,14 @@ exports.eliminarTema = async (req, res) => {
     const temaEncontrado = await Tema.findById(req.params.id)
     if (!temaEncontrado) {
       res.status(404).json({ msg: 'Tema a eliminar no encontrado' })
+      return
+    }
+
+    const temaUtilizado = await Tema.find({ padre: req.params.id })
+    if (temaUtilizado.length !== 0) {
+      res
+        .status(400)
+        .json({ msg: 'No se puede eliminar el tema cuenta con temas hijos ' })
       return
     }
 
