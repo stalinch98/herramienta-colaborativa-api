@@ -8,7 +8,10 @@ const ReferenciaSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-      lowercase: true,
+    },
+    url: {
+      type: String,
+      trim: true,
     },
     asignatura: {
       type: Schema.Types.ObjectId,
