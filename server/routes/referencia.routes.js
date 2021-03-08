@@ -10,7 +10,7 @@ router.post(
   '/',
   authToken,
 
-  [check('referencia', 'La referencia es requerida').not().isEmpty()],
+  [check('titulo', 'El titulo es requerido').not().isEmpty()],
   [check('asignatura', 'La asignatura es requerida').not().isEmpty()],
   referenciaController.crearReferencia
 )

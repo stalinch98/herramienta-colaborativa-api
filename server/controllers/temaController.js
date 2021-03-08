@@ -58,10 +58,9 @@ exports.buscarTemas = async (req, res) => {
   try {
     // buscar en la db
     const temas = await Tema.find({
-      padre: { $exists: true },
       asignatura: req.params.id,
     })
-      .populate({ path: 'padre', select: 'nombre' })
+      .populate({ path: 'padre' })
       .populate({ path: 'asignatura', select: 'nombre' })
       .exec()
 

@@ -4,11 +4,35 @@ const { Schema, model } = mongoose
 
 const ReferenciaSchema = new Schema(
   {
-    referencia: {
+    titulo: {
       type: String,
       required: true,
       trim: true,
-      lowercase: true,
+    },
+    edicion: {
+      type: String,
+      trim: true,
+    },
+    editorial: {
+      type: String,
+      trim: true,
+    },
+    colaboradores: {
+      type: [String],
+      required: true,
+      trim: true,
+    },
+
+    anio: {
+      type: Number,
+    },
+    url: {
+      type: String,
+      trim: true,
+    },
+    tipo: {
+      type: String,
+      trim: true,
     },
     asignatura: {
       type: Schema.Types.ObjectId,

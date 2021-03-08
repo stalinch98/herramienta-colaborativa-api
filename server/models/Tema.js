@@ -8,6 +8,10 @@ const TemaSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Tema',
     },
+    numero: {
+      type: Number,
+      required: true,
+    },
     nombre: {
       type: String,
       required: true,

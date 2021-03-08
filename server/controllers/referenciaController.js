@@ -12,9 +12,9 @@ exports.crearReferencia = async (req, res) => {
 
   try {
     // revisar si ya existe en caso de existir retornarla
-    const { referencia, asignatura } = req.body
+    const { titulo, asignatura } = req.body
     const referenciaEncontrado = await Referencia.findOne({
-      referencia,
+      titulo,
       asignatura,
     })
     if (referenciaEncontrado) {
@@ -70,18 +70,6 @@ exports.buscarReferencias = async (req, res) => {
 // modificarReferencia modifica una referencia en la db buscandola por id
 exports.modificarReferencia = async (req, res) => {
   try {
-    // Guardar los datos enviados por request body
-    const { referencia, asignatura } = req.body
-    const nuevosDatos = {}
-
-    if (referencia) {
-      nuevosDatos.referencia = referencia
-    }
-
-    if (asignatura) {
-      nuevosDatos.asignatura = asignatura
-    }
-
     // Revisar si existe por el id enviado
     let referenciaEncontrado = await Referencia.findById(req.params.id)
     if (!referenciaEncontrado) {
@@ -92,7 +80,7 @@ exports.modificarReferencia = async (req, res) => {
     // Modificar en la db
     referenciaEncontrado = await Referencia.findByIdAndUpdate(
       { _id: req.params.id },
-      { $set: nuevosDatos },
+      { $set: req.body },
       { new: true }
     )
     res.status(200).json({
