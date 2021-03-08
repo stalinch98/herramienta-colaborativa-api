@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const { Schema, model } = mongoose
 
-const PracticaSchema = new Schema(
+const PlantillaSchema = new Schema(
   {
     codigo: {
       type: String,
@@ -15,12 +15,7 @@ const PracticaSchema = new Schema(
       trim: true,
       lowercase: true,
     },
-    objetivo: {
-      type: String,
-      required: true,
-      trim: true,
-      lowercase: true,
-    },
+
     formato: {
       type: String,
       trim: true,
@@ -38,12 +33,13 @@ const PracticaSchema = new Schema(
       type: [String],
       trim: true,
     },
-    concluciones: {
+    objetivos: {
       type: [String],
       trim: true,
     },
     temas: {
-      type: [{ type: Schema.Types.ObjectId, ref: 'Tema' }],
+      type: Schema.Types.ObjectId,
+      ref: 'Tema',
     },
     coordinador: {
       type: Schema.Types.ObjectId,
@@ -59,4 +55,4 @@ const PracticaSchema = new Schema(
   }
 )
 
-module.exports = model('Practica', PracticaSchema)
+module.exports = model('Plantilla', PlantillaSchema)

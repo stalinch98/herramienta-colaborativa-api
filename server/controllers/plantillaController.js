@@ -1,9 +1,9 @@
 const { validationResult } = require('express-validator')
-const Practica = require('../models/Practica')
+const Plantilla = require('../models/Plantilla')
 const { asignaturasCoordinador } = require('../utils/coordinador')
 
-// crearPractica ingresa una practica en la base de datos
-exports.crearPractica = async (req, res) => {
+// crearPlantilla ingresa una plantilla en la base de datos
+exports.crearPlantilla = async (req, res) => {
   // Validar errores de express-validator
   const errs = validationResult(req)
   if (!errs.isEmpty()) {
@@ -31,58 +31,60 @@ exports.crearPractica = async (req, res) => {
     req.body.coordinador = req.logueado.id
 
     // revisar si ya existe en caso de existir retornarla
-    const practicaEncontrada = await Practica.findOne({ titulo, asignatura })
-    if (practicaEncontrada) {
+    const plantillaEncontrada = await Plantilla.findOne({ titulo, asignatura })
+    if (plantillaEncontrada) {
       res.status(400).json({
-        msg: 'La practica con ese título ya existe',
-        data: practicaEncontrada,
+        msg: 'La plantilla con ese título ya existe',
+        data: plantillaEncontrada,
       })
       return
     }
 
     // crear el modelo con los datos del Request body
-    const practicaModel = new Practica(req.body)
+    const plantillaModel = new Plantilla(req.body)
 
     // Guardar en la base de datos
-    await practicaModel.save((err, room) => {
+    await plantillaModel.save((err, room) => {
       if (err) {
         res.status(400).send({ msg: 'Error al insertar en la base de datos' })
         return
       }
-      res.status(201).json({ msg: 'Practica ingresada con exito', id: room.id })
+      res
+        .status(201)
+        .json({ msg: 'Plantilla ingresada con exito', id: room.id })
     })
   } catch (error) {
     res.status(500).json({ msg: 'hubo un error en el servidor' })
   }
 }
 
-// buscarPracticas Busca todas las practicas en la base de datos
-exports.buscarPracticas = async (req, res) => {
+// buscarPlantillas Busca todas las plantillas en la base de datos
+exports.buscarPlantillas = async (req, res) => {
   try {
     // buscar en la db
-    const practicas = await Practica.find({ coordinador: req.logueado.id })
+    const plantillas = await Plantilla.find({ coordinador: req.logueado.id })
       .populate({ path: 'temas', select: 'nombre' })
       .populate({ path: 'asignatura', select: 'nombre' })
       .exec()
 
     // si no hay datos retornar 404 not found
-    if (!practicas) {
-      res.status(404).json({ msg: 'No se encontraron practicas' })
+    if (!plantillas) {
+      res.status(404).json({ msg: 'No se encontraron plantillas' })
       return
     }
 
     // caso contrario retornar la lista
     res.status(200).json({
       msg: 'Busqueda realizada con exito',
-      data: practicas,
+      data: plantillas,
     })
   } catch (error) {
     res.status(500).json({ msg: 'hubo un error en el servidor' })
   }
 }
 
-// modificarPractica modifica una practica en la db buscandola por id
-exports.modificarPractica = async (req, res) => {
+// modificarPlantilla modifica una plantilla en la db buscandola por id
+exports.modificarPlantilla = async (req, res) => {
   // Validar errores de express-validator
   const errs = validationResult(req)
   if (!errs.isEmpty()) {
@@ -92,16 +94,16 @@ exports.modificarPractica = async (req, res) => {
 
   try {
     // Revisar si existe por el id enviado
-    let practicaEncontrada = await Practica.findById(req.params.id)
-    if (!practicaEncontrada) {
-      res.status(404).json({ msg: 'Practica ha modificar no encontrada' })
+    let plantillaEncontrada = await Plantilla.findById(req.params.id)
+    if (!plantillaEncontrada) {
+      res.status(404).json({ msg: 'Plantilla ha modificar no encontrada' })
       return
     }
 
     // Revisar si es coordinador de la materia
     const esCoordinador = await asignaturasCoordinador(
       req.logueado.id,
-      practicaEncontrada.asignatura.toString()
+      plantillaEncontrada.asignatura.toString()
     )
 
     if (!esCoordinador) {
@@ -113,34 +115,34 @@ exports.modificarPractica = async (req, res) => {
     }
 
     // Modificar en la db
-    practicaEncontrada = await Practica.findByIdAndUpdate(
+    plantillaEncontrada = await Plantilla.findByIdAndUpdate(
       { _id: req.params.id },
       { $set: req.body },
       { new: true }
     )
     res.status(200).json({
-      msg: 'practica modificada con exito',
-      data: practicaEncontrada,
+      msg: 'plantilla modificada con exito',
+      data: plantillaEncontrada,
     })
   } catch (error) {
     res.status(500).json({ msg: 'hubo un error en el servidor' })
   }
 }
 
-// eliminarPractica Elimina una practica por el id
-exports.eliminarPractica = async (req, res) => {
+// eliminarPlantilla Elimina una plantilla por el id
+exports.eliminarPlantilla = async (req, res) => {
   try {
     // Revisar si existe por el id enviado
-    const practicaEncontrada = await Practica.findById(req.params.id)
-    if (!practicaEncontrada) {
-      res.status(404).json({ msg: 'Practica a eliminar no encontrada' })
+    const plantillaEncontrada = await Plantilla.findById(req.params.id)
+    if (!plantillaEncontrada) {
+      res.status(404).json({ msg: 'Plantilla a eliminar no encontrada' })
       return
     }
 
     // Revisar si es coordinador de la materia
     const esCoordinador = await asignaturasCoordinador(
       req.logueado.id,
-      practicaEncontrada.asignatura.toString()
+      plantillaEncontrada.asignatura.toString()
     )
 
     if (!esCoordinador) {
@@ -152,57 +154,57 @@ exports.eliminarPractica = async (req, res) => {
     }
 
     // Eliminar en la db
-    await Practica.findOneAndRemove({ _id: req.params.id })
-    res.status(200).json({ msg: 'Practica eliminada con exito' })
+    await Plantilla.findOneAndRemove({ _id: req.params.id })
+    res.status(200).json({ msg: 'Plantilla eliminada con exito' })
   } catch (error) {
     res.status(500).json({ msg: 'hubo un error en el servidor' })
   }
 }
 
-// buscarPracticaAsignatura Busca todas las practicas en la base de datos de una asignatura
-exports.buscarPracticaAsignatura = async (req, res) => {
+// buscarPlantillaAsignatura Busca todas las plantillas en la base de datos de una asignatura
+exports.buscarPlantillaAsignatura = async (req, res) => {
   try {
     // buscar en la db
-    const practicas = await Practica.find({ asignatura: req.params.id })
+    const plantillas = await Plantilla.find({ asignatura: req.params.id })
       .populate({ path: 'temas', select: 'nombre' })
       .populate({ path: 'asignatura', select: 'nombre' })
       .exec()
 
     // si no hay datos retornar 404 not found
-    if (!practicas) {
-      res.status(404).json({ msg: 'No se encontraron practicas' })
+    if (!plantillas) {
+      res.status(404).json({ msg: 'No se encontraron plantillas' })
       return
     }
 
     // caso contrario retornar la lista
     res.status(200).json({
       msg: 'Busqueda realizada con exito',
-      data: practicas,
+      data: plantillas,
     })
   } catch (error) {
     res.status(500).json({ msg: 'hubo un error en el servidor' })
   }
 }
 
-// buscarPracticas Busca todas las practicas en la base de datos
-exports.buscarPracticaID = async (req, res) => {
+// buscarPlantillas Busca una plantilla en la base de datos por id
+exports.buscarPlantillaID = async (req, res) => {
   try {
     // buscar en la db
-    const practicas = await Practica.findById(req.params.id)
+    const plantillas = await Plantilla.findById(req.params.id)
       .populate({ path: 'temas', select: 'nombre' })
       .populate({ path: 'asignatura', select: 'nombre' })
       .exec()
 
     // si no hay datos retornar 404 not found
-    if (!practicas) {
-      res.status(404).json({ msg: 'No se encontraron practicas' })
+    if (!plantillas) {
+      res.status(404).json({ msg: 'No se encontraron plantillas' })
       return
     }
 
     // caso contrario retornar la lista
     res.status(200).json({
       msg: 'Busqueda realizada con exito',
-      data: practicas,
+      data: plantillas,
     })
   } catch (error) {
     res.status(500).json({ msg: 'hubo un error en el servidor' })
