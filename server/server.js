@@ -3,7 +3,7 @@ const express = require('express')
 const swaggerUi = require('swagger-ui-express')
 const swaggerJsdoc = require('swagger-jsdoc')
 const cors = require('cors')
-
+const fileUpload = require('express-fileupload')
 // local imports
 const conectarDB = require('./config/mongo')
 const swaggerOptions = require('./config/swagger')
@@ -20,6 +20,13 @@ app.use(express.json({ extended: true }))
 const swaggerSpecs = swaggerJsdoc(swaggerOptions)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs))
 
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/',
+  })
+)
+
 // Rutas del aplicativo
 app.use('/api/usuarios', require('./routes/usuario.routes'))
 app.use('/api/login', require('./routes/auth.routes'))
@@ -32,6 +39,27 @@ app.use('/api/plantilla', require('./routes/plantilla.routes'))
 
 app.get('/', (req, res) => {
   res.send('Server UP')
+})
+
+app.post('/upload', (req, res) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    res.status(400).send('No se ha enviado un archivo.')
+    return
+  }
+
+  console.log(req.files) // eslint-disable-line
+
+  const { file } = req.files
+
+  const uploadPath = `${__dirname}/uploads/${file.name}`
+
+  file.mv(uploadPath, (err) => {
+    if (err) {
+      res.status(500).send(err)
+    }
+
+    res.send(uploadPath)
+  })
 })
 
 // Levantar servidor
