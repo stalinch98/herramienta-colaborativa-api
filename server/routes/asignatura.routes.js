@@ -21,6 +21,11 @@ router.get(
   authToken,
   asignaturaController.buscarAsignaturaCoordinador
 )
+router.get(
+  '/docentes',
+  authToken,
+  asignaturaController.buscarAsignaturasDocente
+)
 
 router.put(
   '/:id',

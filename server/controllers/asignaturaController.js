@@ -199,3 +199,27 @@ exports.buscarAsignaturaCoordinador = async (req, res) => {
     res.status(500).json({ msg: 'hubo un error en el servidor' })
   }
 }
+
+// buscarAsignaturasDocente Busca todas las asignaturas de un docente en la base de datos
+exports.buscarAsignaturasDocente = async (req, res) => {
+  try {
+    // buscar en la db
+    const asignaturas = await Asignatura.find({ docentes: req.logueado.id })
+      .populate({ path: 'carrera' })
+      .exec()
+
+    // si no hay datos retornar 404 not found
+    if (!asignaturas) {
+      res.status(404).json({ msg: 'No se encontraron asignaturas' })
+      return
+    }
+
+    // caso contrario retornar la lista
+    res.status(200).json({
+      msg: 'Busqueda realizada con exito',
+      data: asignaturas,
+    })
+  } catch (error) {
+    res.status(500).json({ msg: 'hubo un error en el servidor' })
+  }
+}
