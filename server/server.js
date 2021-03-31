@@ -40,6 +40,8 @@ app.use('/api/tema', require('./routes/tema.routes'))
 app.use('/api/referencia', require('./routes/referencia.routes'))
 app.use('/api/plantilla', require('./routes/plantilla.routes'))
 app.use('/api/ejercicio', require('./routes/ejercicio.routes'))
+app.use('/api/calificacion', require('./routes/calificacion.routes'))
+// app.use('/api/practica', require('./routes/practica.routes'))
 
 app.get('/', (req, res) => {
   res.send('Server UP')

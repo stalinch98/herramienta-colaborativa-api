@@ -205,6 +205,7 @@ exports.buscarAsignaturasDocente = async (req, res) => {
   try {
     // buscar en la db
     const asignaturas = await Asignatura.find({ docentes: req.logueado.id })
+      .populate({ path: 'docentes', select: '-contrasena' })
       .populate({ path: 'carrera' })
       .exec()
 
