@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator')
 const Ejercicio = require('../models/Ejercicio')
 const { asignaturasCoordinador } = require('../utils/coordinador')
+const { asignaturasDocente } = require('../utils/docente')
 
 // crearEjercicio ingresa una ejercicio en la base de datos
 exports.crearEjercicio = async (req, res) => {
@@ -21,12 +22,17 @@ exports.crearEjercicio = async (req, res) => {
     )
 
     if (!esCoordinador) {
-      res.status(401).json({
-        msg:
-          'Permisos insuficientes para realizar la accion no es coordinador de la asignatura',
-      })
-      return
+      // Revisar si es docente de la materia
+      const esDocente = await asignaturasDocente(req.logueado.id, asignatura)
+      if (!esDocente) {
+        res.status(401).json({
+          msg:
+            'Permisos insuficientes para realizar la accion no es coordinador o docente de la asignatura',
+        })
+        return
+      }
     }
+
     // Guardar el coordinador como el usuario logueado
     req.body.docente = req.logueado.id
 
@@ -109,11 +115,18 @@ exports.modificarEjercicio = async (req, res) => {
     )
 
     if (!esCoordinador) {
-      res.status(401).json({
-        msg:
-          'Permisos insuficientes para realizar la accion no es coordinador de la asignatura',
-      })
-      return
+      // Revisar si es docente de la materia
+      const esDocente = await asignaturasDocente(
+        req.logueado.id,
+        ejercicioEncontrada.asignatura.toString()
+      )
+      if (!esDocente) {
+        res.status(401).json({
+          msg:
+            'Permisos insuficientes para realizar la accion no es coordinador o docente de la asignatura',
+        })
+        return
+      }
     }
 
     // Modificar en la db
@@ -148,11 +161,18 @@ exports.eliminarEjercicio = async (req, res) => {
     )
 
     if (!esCoordinador) {
-      res.status(401).json({
-        msg:
-          'Permisos insuficientes para realizar la accion no es coordinador de la asignatura',
-      })
-      return
+      // Revisar si es docente de la materia
+      const esDocente = await asignaturasDocente(
+        req.logueado.id,
+        ejercicioEncontrada.asignatura.toString()
+      )
+      if (!esDocente) {
+        res.status(401).json({
+          msg:
+            'Permisos insuficientes para realizar la accion no es coordinador o docente de la asignatura',
+        })
+        return
+      }
     }
 
     // Eliminar en la db
