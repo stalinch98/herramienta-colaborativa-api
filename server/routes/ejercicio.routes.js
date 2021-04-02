@@ -24,6 +24,12 @@ router.get(
   authToken,
   ejercicioController.buscarEjercicioAsignatura
 )
+
+router.get(
+  '/plantilla/:id',
+  authToken,
+  ejercicioController.buscarEjercicioPlantilla
+)
 router.get('/:id', authToken, ejercicioController.buscarEjercicioID)
 
 router.put('/:id', authToken, ejercicioController.modificarEjercicio)

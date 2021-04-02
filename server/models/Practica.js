@@ -15,6 +15,11 @@ const PracticaSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Periodo',
     },
+    creado: {
+      type: Date,
+      default: Date.now,
+      require: true,
+    },
   },
   {
     versionKey: false,

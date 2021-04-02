@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator')
 const Practica = require('../models/Practica')
+const Periodo = require('../models/Periodo')
 const {
   practicaCoordinador,
   asignaturasCoordinador,
@@ -15,6 +16,18 @@ exports.crearPractica = async (req, res) => {
   }
 
   try {
+    // Revisar si existe por el id enviado
+    const periodoEncontrada = await Periodo.findOne({ estado: true })
+    if (!periodoEncontrada) {
+      res.status(404).json({
+        msg: 'No existe un periodo activo comunicare con un administrador',
+      })
+      return
+    }
+
+    // eslint-disable-next-line no-underscore-dangle
+    req.body.periodo = periodoEncontrada._id
+
     const { plantilla } = req.body
 
     // Guardar la materia a la que pertenece la plantilla
@@ -63,7 +76,7 @@ exports.buscarPracticas = async (req, res) => {
     // buscar en la db
     const practicas = await Practica.find()
       .populate({ path: 'plantilla' })
-      .populate({ path: 'ejercicios' })
+      .populate({ path: 'ejercicios', populate: 'referencia' })
       .populate({ path: 'periodo', select: 'periodo' })
       .exec()
 
@@ -182,9 +195,19 @@ exports.eliminarPractica = async (req, res) => {
 exports.buscarPracticaAsignatura = async (req, res) => {
   try {
     // buscar en la db
-    const practicas = await Practica.find({ asignatura: req.params.id })
-      .populate({ path: 'plantilla' })
-      .populate({ path: 'ejercicios' })
+    const practicas = await Practica.find()
+      .sort({ _id: -1 })
+      .populate({
+        path: 'plantilla',
+        select: ['titulo', 'objetivos'],
+        populate: {
+          path: 'coordinador',
+          select: ['nombre', 'apellido'],
+        },
+        match: { asignatura: req.params.id },
+      })
+      .populate({ path: 'ejercicios', select: 'titulo' })
+      .populate({ path: 'periodo', select: 'periodo' })
       .exec()
 
     // si no hay datos retornar 404 not found
@@ -209,7 +232,8 @@ exports.buscarPracticaID = async (req, res) => {
     // buscar en la db
     const practicas = await Practica.findById(req.params.id)
       .populate({ path: 'plantilla' })
-      .populate({ path: 'ejercicios' })
+      .populate({ path: 'ejercicios', populate: 'referencia' })
+      .populate({ path: 'periodo', select: 'periodo' })
       .exec()
 
     // si no hay datos retornar 404 not found

@@ -19,23 +19,28 @@ const PlantillaSchema = new Schema(
     formato: {
       type: String,
       trim: true,
+      required: true,
       lowercase: true,
     },
     requisitos: {
       type: [String],
       trim: true,
+      required: true,
     },
     instrucciones: {
       type: [String],
       trim: true,
+      required: true,
     },
     resultados: {
       type: [String],
       trim: true,
+      required: true,
     },
     objetivos: {
       type: [String],
       trim: true,
+      required: true,
     },
     temas: {
       type: Schema.Types.ObjectId,
