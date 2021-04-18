@@ -15,27 +15,36 @@ const PlantillaSchema = new Schema(
       trim: true,
       lowercase: true,
     },
+    numero: {
+      type: Number,
+      required: true,
+    },
 
     formato: {
       type: String,
       trim: true,
+      required: true,
       lowercase: true,
     },
     requisitos: {
       type: [String],
       trim: true,
+      required: true,
     },
     instrucciones: {
       type: [String],
       trim: true,
+      required: true,
     },
     resultados: {
       type: [String],
       trim: true,
+      required: true,
     },
     objetivos: {
       type: [String],
       trim: true,
+      required: true,
     },
     temas: {
       type: Schema.Types.ObjectId,
@@ -43,10 +52,12 @@ const PlantillaSchema = new Schema(
     },
     coordinador: {
       type: Schema.Types.ObjectId,
+      required: true,
       ref: 'Usuario',
     },
     asignatura: {
       type: Schema.Types.ObjectId,
+      required: true,
       ref: 'Asignatura',
     },
   },

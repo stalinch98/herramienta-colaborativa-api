@@ -28,7 +28,7 @@ router.delete(
   periodoController.eliminarPeriodo
 )
 
-router.get('/', authToken, administrador, periodoController.buscarPeriodo)
+router.get('/', authToken, periodoController.buscarPeriodo)
 router.patch('/:id', authToken, administrador, periodoController.activarPeriodo)
 
 module.exports = router

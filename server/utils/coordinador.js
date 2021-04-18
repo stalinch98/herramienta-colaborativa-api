@@ -33,7 +33,6 @@ exports.practicaCoordinador = async (idPlantilla) => {
       return null
     }
 
-    // eslint-disable-next-line no-underscore-dangle
     const idAsignatura = plantillaEncontradas.asignatura._id
     return idAsignatura
   } catch (error) {
