@@ -1,4 +1,6 @@
 const { validationResult } = require('express-validator')
+const pdf = require('html-pdf')
+
 const Practica = require('../models/Practica')
 const Periodo = require('../models/Periodo')
 const {
@@ -199,12 +201,12 @@ exports.buscarPracticaAsignatura = async (req, res) => {
       .sort({ _id: -1 })
       .populate({
         path: 'plantilla',
-        select: ['titulo', 'objetivos'],
+        select: ['titulo', 'objetivos', 'asignatura'],
         populate: {
           path: 'coordinador',
           select: ['nombre', 'apellido'],
         },
-        match: { asignatura: req.params.id },
+        // match: { asignatura: req.params.id },
       })
       .populate({ path: 'ejercicios', select: 'titulo' })
       .populate({ path: 'periodo', select: 'periodo' })
@@ -231,7 +233,18 @@ exports.buscarPracticaID = async (req, res) => {
   try {
     // buscar en la db
     const practicas = await Practica.findById(req.params.id)
-      .populate({ path: 'plantilla' })
+      .populate({
+        path: 'plantilla',
+        populate: {
+          path: 'asignatura',
+          select: ['nombre', 'carrera'],
+          populate: {
+            path: 'carrera',
+            select: 'carrera',
+          },
+        },
+        // match: { asignatura: req.params.id },
+      })
       .populate({ path: 'ejercicios', populate: 'referencia' })
       .populate({ path: 'periodo', select: 'periodo' })
       .exec()
@@ -246,6 +259,54 @@ exports.buscarPracticaID = async (req, res) => {
     res.status(200).json({
       msg: 'Busqueda realizada con exito',
       data: practicas,
+    })
+  } catch (error) {
+    res.status(500).json({ msg: 'hubo un error en el servidor' })
+  }
+}
+
+// PDFPractica Retorna el pdf de una practica
+exports.PDFPractica = async (req, res) => {
+  try {
+    // buscar en la db
+    const practicas = await Practica.findById(req.params.id)
+
+    // si no hay datos retornar 404 not found
+    if (!practicas) {
+      res.status(404).json({ msg: 'No se encontraron practicas' })
+      return
+    }
+
+    const config = {
+      format: 'A4',
+      orientation: 'portrait',
+      border: '0.3in',
+    }
+
+    // Validar tipo de descarga
+    let content = ''
+
+    if (req.params.tipo === 'normal') {
+      content = practicas.final
+    }
+
+    if (req.params.tipo === 'solucion') {
+      content = practicas.finalSolucion
+    }
+
+    if (!content) {
+      res.status(404).json({ msg: 'No hay datos para enviar en el pdf' })
+      return
+    }
+
+    pdf.create(content, config).toStream((err, stream) => {
+      if (err) {
+        res.json({ msg: 'error' })
+      }
+      res.setHeader('Content-Type', 'application/pdf')
+      res.setHeader('Content-Disposition', 'attachment; filename=data.pdf')
+
+      stream.pipe(res)
     })
   } catch (error) {
     res.status(500).json({ msg: 'hubo un error en el servidor' })

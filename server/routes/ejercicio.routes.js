@@ -10,7 +10,6 @@ router.post(
   '/',
   authToken,
   [check('titulo', 'El título es requerido').not().isEmpty()],
-  [check('descripcion', 'La descripcion es requerida').not().isEmpty()],
   [check('dificultad', 'La dificultad es requerida').not().isEmpty()],
   [check('ejercicio', 'El ejercicio es requerido').not().isEmpty()],
   [check('tema', 'el tema es requerido').not().isEmpty()],

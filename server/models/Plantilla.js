@@ -15,6 +15,10 @@ const PlantillaSchema = new Schema(
       trim: true,
       lowercase: true,
     },
+    numero: {
+      type: Number,
+      required: true,
+    },
 
     formato: {
       type: String,
@@ -48,10 +52,12 @@ const PlantillaSchema = new Schema(
     },
     coordinador: {
       type: Schema.Types.ObjectId,
+      required: true,
       ref: 'Usuario',
     },
     asignatura: {
       type: Schema.Types.ObjectId,
+      required: true,
       ref: 'Asignatura',
     },
   },

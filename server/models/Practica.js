@@ -20,6 +20,14 @@ const PracticaSchema = new Schema(
       default: Date.now,
       require: true,
     },
+    final: {
+      type: String,
+      trim: true,
+    },
+    finalSolucion: {
+      type: String,
+      trim: true,
+    },
   },
   {
     versionKey: false,

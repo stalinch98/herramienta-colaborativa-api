@@ -12,7 +12,6 @@ const EjerciciosSchema = new Schema(
     },
     descripcion: {
       type: String,
-      required: true,
       trim: true,
       lowercase: true,
     },
@@ -33,6 +32,11 @@ const EjerciciosSchema = new Schema(
       trim: true,
     },
 
+    evaluacion: {
+      type: Number,
+      default: 0,
+    },
+
     solucion: {
       type: String,
       trim: true,
@@ -51,6 +55,12 @@ const EjerciciosSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Usuario',
     },
+
+    archivado: {
+      type: Boolean,
+      default: false,
+    },
+
     asignatura: {
       type: Schema.Types.ObjectId,
       ref: 'Asignatura',

@@ -16,10 +16,13 @@ router.post(
 
 router.get('/', authToken, practicaController.buscarPracticas)
 router.get(
-  '/asignatura/:id',
+  '/asignatura',
   authToken,
   practicaController.buscarPracticaAsignatura
 )
+
+router.get('/pdf/:id/:tipo', practicaController.PDFPractica)
+
 router.get('/:id', authToken, practicaController.buscarPracticaID)
 
 router.put('/:id', authToken, practicaController.modificarPractica)
