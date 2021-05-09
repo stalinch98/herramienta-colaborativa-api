@@ -79,6 +79,23 @@
 
 /**
  * @swagger
+ * /api/asignatura/docentes:
+ *  get:
+ *      description: Obtener todas las asignaturas donde es docente un usuario logueado
+ *      tags: [Asignaturas]
+ *      responses:
+ *          200:
+ *              description: Busqueda realizada con exito
+ *          404:
+ *              description: No se encontraron asignaturas
+ *          401:
+ *              description: Permisos insuficientes para realizar la accion
+ *          500:
+ *              description: hubo un error en el servidor
+ */
+
+/**
+ * @swagger
  * /api/asignatura/{id}:
  *  put:
  *      description: Modificar una asignatura por id
