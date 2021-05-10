@@ -1,5 +1,7 @@
 const { validationResult } = require('express-validator')
 const Tema = require('../models/Tema')
+const Ejercicio = require('../models/Ejercicio')
+const Plantilla = require('../models/Plantilla')
 const { asignaturasCoordinador } = require('../utils/coordinador')
 
 // crearTema ingresa una tema en la base de datos
@@ -83,22 +85,6 @@ exports.buscarTemas = async (req, res) => {
 // modificarTema modifica una tema en la db buscandola por id
 exports.modificarTema = async (req, res) => {
   try {
-    // Guardar los datos enviados por request body
-    const { nombre, padre, asignatura } = req.body
-    const nuevosDatos = {}
-
-    if (nombre) {
-      nuevosDatos.nombre = nombre
-    }
-
-    if (padre) {
-      nuevosDatos.padre = padre
-    }
-
-    if (asignatura) {
-      nuevosDatos.asignatura = asignatura
-    }
-
     // Revisar si existe por el id enviado
     let temaEncontrado = await Tema.findById(req.params.id)
     if (!temaEncontrado) {
@@ -123,7 +109,7 @@ exports.modificarTema = async (req, res) => {
     // Modificar en la db
     temaEncontrado = await Tema.findByIdAndUpdate(
       { _id: req.params.id },
-      { $set: nuevosDatos },
+      { $set: req.body },
       { new: true }
     )
     res.status(200).json({
@@ -164,6 +150,29 @@ exports.eliminarTema = async (req, res) => {
         msg:
           'Permisos insuficientes para realizar la accion no es coordinador de la asignatura',
       })
+      return
+    }
+
+    let pertenece = 'No se puede eliminar el tema se encuentra asignado en: '
+
+    const EjerciciosTema = await Ejercicio.find({
+      tema: req.params.id,
+    })
+    if (EjerciciosTema.length !== 0) {
+      pertenece += 'ejercicios, '
+    }
+
+    const PlantillaTema = await Plantilla.find({
+      temas: req.params.id,
+    })
+    if (PlantillaTema.length !== 0) {
+      pertenece += 'plantillas, '
+    }
+
+    if (
+      pertenece !== 'No se puede eliminar el tema se encuentra asignado en: '
+    ) {
+      res.status(400).json({ msg: pertenece })
       return
     }
 

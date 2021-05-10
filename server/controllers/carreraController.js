@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator')
 const Carrera = require('../models/Carrera')
+const Asignatura = require('../models/Asignatura')
 
 // crearCarrera ingresa una carrera en la base de datos
 exports.crearCarrera = async (req, res) => {
@@ -78,6 +79,13 @@ exports.modificarCarrera = async (req, res) => {
       res.status(404).json({ msg: 'Carrera ha modificar no encontrada' })
       return
     }
+
+    const carreraNombre = await Carrera.find({ carrera })
+    if (carreraNombre.length !== 0) {
+      res.status(404).json({ msg: 'Ya existe una carrera con ese nombre' })
+      return
+    }
+
     // Modificar en la db
     carreraEncontrada = await Carrera.findByIdAndUpdate(
       { _id: req.params.id },
@@ -99,6 +107,14 @@ exports.eliminarCarrera = async (req, res) => {
     const carreraEncontrada = await Carrera.findById(req.params.id)
     if (!carreraEncontrada) {
       res.status(404).json({ msg: 'Carrera a eliminar no encontrada' })
+      return
+    }
+
+    const TieneAsignatura = await Asignatura.find({ carrera: req.params.id })
+    if (TieneAsignatura.length !== 0) {
+      res
+        .status(404)
+        .json({ msg: 'La carrera cuenta con asignaturas asignadas' })
       return
     }
     // Eliminar en la db

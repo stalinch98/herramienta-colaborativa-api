@@ -1,5 +1,9 @@
 const { validationResult } = require('express-validator')
 const Asignatura = require('../models/Asignatura')
+const Ejercicio = require('../models/Ejercicio')
+const Plantilla = require('../models/Plantilla')
+const Referencia = require('../models/Referencia')
+const Tema = require('../models/Tema')
 
 // crearAsignatura ingresa una asignatura en la base de datos
 exports.crearAsignatura = async (req, res) => {
@@ -76,26 +80,6 @@ exports.modificarAsignatura = async (req, res) => {
   }
 
   try {
-    // Guardar los datos enviados por request body
-    const { codigo, nombre, carrera, coordinador } = req.body
-    const nuevosDatos = {}
-
-    if (codigo) {
-      nuevosDatos.codigo = codigo
-    }
-
-    if (nombre) {
-      nuevosDatos.nombre = nombre
-    }
-
-    if (carrera) {
-      nuevosDatos.carrera = carrera
-    }
-
-    if (coordinador) {
-      nuevosDatos.coordinador = coordinador
-    }
-
     // Revisar si existe por el id enviado
     let asignaturaEncontrada = await Asignatura.findById(req.params.id)
     if (!asignaturaEncontrada) {
@@ -106,7 +90,7 @@ exports.modificarAsignatura = async (req, res) => {
     // Modificar en la db
     asignaturaEncontrada = await Asignatura.findByIdAndUpdate(
       { _id: req.params.id },
-      { $set: nuevosDatos },
+      { $set: req.body },
       { new: true }
     )
     res.status(200).json({
@@ -167,6 +151,42 @@ exports.eliminarAsignatura = async (req, res) => {
       res.status(404).json({ msg: 'Asignatura a eliminar no encontrado' })
       return
     }
+
+    let pertenece = 'No se puede eliminar la asignatura tiene asignado: '
+
+    const EjerciciosAsignatura = await Ejercicio.find({
+      asignatura: req.params.id,
+    })
+    if (EjerciciosAsignatura.length !== 0) {
+      pertenece += 'ejercicios, '
+    }
+
+    const PlantillaAsignatura = await Plantilla.find({
+      asignatura: req.params.id,
+    })
+    if (PlantillaAsignatura.length !== 0) {
+      pertenece += 'plantillas, '
+    }
+
+    const ReferenciaAsignatura = await Referencia.find({
+      asignatura: req.params.id,
+    })
+    if (ReferenciaAsignatura.length !== 0) {
+      pertenece += 'referencias, '
+    }
+
+    const TemaAsignatura = await Tema.find({
+      asignatura: req.params.id,
+    })
+    if (TemaAsignatura.length !== 0) {
+      pertenece += 'temas, '
+    }
+
+    if (pertenece !== 'No se puede eliminar la asignatura tiene asignado: ') {
+      res.status(400).json({ msg: pertenece })
+      return
+    }
+
     // Eliminar en la db
     await Asignatura.findOneAndRemove({ _id: req.params.id })
     res.status(200).json({ msg: 'Asignatura eliminada con exito' })
