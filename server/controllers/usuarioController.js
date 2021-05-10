@@ -1,6 +1,10 @@
 const bcryptjs = require('bcryptjs')
 const { validationResult } = require('express-validator')
 const Usuario = require('../models/Usuario')
+const Asignatura = require('../models/Asignatura')
+const Calificacion = require('../models/Calificacion')
+const Ejercicio = require('../models/Ejercicio')
+const Plantilla = require('../models/Plantilla')
 
 exports.crearUsuario = async (req, res) => {
   const errs = validationResult(req)
@@ -176,6 +180,46 @@ exports.eliminarUsuario = async (req, res) => {
         .json({ msg: 'Permisos insuficientes para eliminar el usuario' })
       return
     }
+    let pertenece = 'No se puede eliminar el usuario: '
+    const asignaturasUsuario = await Asignatura.find({
+      docentes: req.params.id,
+    })
+    if (asignaturasUsuario.length !== 0) {
+      pertenece += 'pertenece a una asignatura, '
+    }
+
+    const coordinadorUsuario = await Asignatura.find({
+      coordinador: req.params.id,
+    })
+
+    if (coordinadorUsuario.length !== 0) {
+      pertenece += 'es coordinador de una asignatura, '
+    }
+
+    const calificacionUsuario = await Calificacion.find({
+      docente: req.params.id,
+    })
+    if (calificacionUsuario.length !== 0) {
+      pertenece += 'tiene calificaciones en ejercicios, '
+    }
+
+    const EjerciciosUsuario = await Ejercicio.find({ docente: req.params.id })
+    if (EjerciciosUsuario.length !== 0) {
+      pertenece += 'tiene ejercicios hechos, '
+    }
+
+    const PlantillaUsuario = await Plantilla.find({
+      coordinador: req.params.id,
+    })
+    if (PlantillaUsuario.length !== 0) {
+      pertenece += 'tiene plantillas hechas, '
+    }
+
+    if (pertenece !== 'No se puede eliminar el usuario: ') {
+      res.status(400).json({ msg: pertenece })
+      return
+    }
+
     await Usuario.findOneAndRemove({ _id: req.params.id })
     res.status(200).json({ msg: 'usuario eliminado con exito' })
   } catch (error) {

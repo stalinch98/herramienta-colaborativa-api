@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator')
 const Referencia = require('../models/Referencia')
+const Ejercicio = require('../models/Ejercicio')
 
 // crearReferencia ingresa una referencia en la base de datos
 exports.crearReferencia = async (req, res) => {
@@ -101,6 +102,15 @@ exports.eliminarReferencia = async (req, res) => {
       res.status(404).json({ msg: 'Referencia a eliminar no encontrada' })
       return
     }
+
+    const Utilizado = await Ejercicio.find({ referencia: req.params.id })
+    if (Utilizado.length !== 0) {
+      res
+        .status(404)
+        .json({ msg: 'Esta referencia esta utilizada en los ejercicios' })
+      return
+    }
+
     // Eliminar en la db
     await Referencia.findOneAndRemove({ _id: req.params.id })
     res.status(200).json({ msg: 'Referencia eliminada con exito' })

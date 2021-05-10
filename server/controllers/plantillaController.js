@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator')
 const Plantilla = require('../models/Plantilla')
+const Practica = require('../models/Practica')
 const { asignaturasCoordinador } = require('../utils/coordinador')
 
 // crearPlantilla ingresa una plantilla en la base de datos
@@ -150,6 +151,14 @@ exports.eliminarPlantilla = async (req, res) => {
         msg:
           'Permisos insuficientes para realizar la accion no es coordinador de la asignatura',
       })
+      return
+    }
+
+    const TienePracticasAsignadas = await Practica.find({
+      plantilla: req.params.id,
+    })
+    if (TienePracticasAsignadas.length !== 0) {
+      res.status(404).json({ msg: 'Existen practicas con esta plantilla' })
       return
     }
 

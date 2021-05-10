@@ -1,5 +1,7 @@
 const { validationResult } = require('express-validator')
 const Periodo = require('../models/Periodo')
+const Practica = require('../models/Practica')
+
 const { fechaMayor } = require('../utils/functions')
 
 // crearPeriodo ingresa una periodo en la base de datos
@@ -132,6 +134,15 @@ exports.eliminarPeriodo = async (req, res) => {
       res.status(404).json({ msg: 'Periodo a eliminar no encontrado' })
       return
     }
+
+    const TienePracticasAsignadas = await Practica.find({
+      periodo: req.params.id,
+    })
+    if (TienePracticasAsignadas.length !== 0) {
+      res.status(404).json({ msg: 'Existen practicas con este periodo' })
+      return
+    }
+
     // Eliminar en la db
     await Periodo.findOneAndRemove({ _id: req.params.id })
     res.status(200).json({ msg: 'Periodo eliminada con exito' })
