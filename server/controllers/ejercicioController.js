@@ -43,7 +43,7 @@ exports.crearEjercicio = async (req, res) => {
     const ejercicioEncontrada = await Ejercicio.findOne({ titulo, asignatura })
     if (ejercicioEncontrada) {
       res.status(400).json({
-        msg: 'La ejercicio con ese título ya existe',
+        msg: 'El ejercicio con ese título ya existe',
         data: ejercicioEncontrada,
       })
       return
@@ -108,7 +108,7 @@ exports.modificarEjercicio = async (req, res) => {
     // Revisar si existe por el id enviado
     let ejercicioEncontrada = await Ejercicio.findById(req.params.id)
     if (!ejercicioEncontrada) {
-      res.status(404).json({ msg: 'Ejercicio ha modificar no encontrada' })
+      res.status(404).json({ msg: 'Ejercicio ha modificar no encontrado' })
       return
     }
 
@@ -154,7 +154,7 @@ exports.eliminarEjercicio = async (req, res) => {
     // Revisar si existe por el id enviado
     let ejercicioEncontrada = await Ejercicio.findById(req.params.id)
     if (!ejercicioEncontrada) {
-      res.status(404).json({ msg: 'Ejercicio a eliminar no encontrada' })
+      res.status(404).json({ msg: 'Ejercicio a eliminar no encontrado' })
       return
     }
 
@@ -275,7 +275,7 @@ exports.buscarEjercicioPlantilla = async (req, res) => {
     const plantilla = await Plantilla.findById(req.params.id)
     // si no hay datos retornar 404 not found
     if (!plantilla) {
-      res.status(404).json({ msg: 'No se encontro la plantilla a ingrear' })
+      res.status(404).json({ msg: 'No se encontro la plantilla a buscar' })
       return
     }
 

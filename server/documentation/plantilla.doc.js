@@ -1,13 +1,13 @@
-/* Documentacion de Temas */
+/* Documentacion de Plantillas */
 /**
  * @swagger
  * tags:
- *  name: Temas
- *  description: Manejo de los temas en el sistema
- * /api/tema:
+ *  name: Plantillas
+ *  description: Manejo de las plantillas para generar una practica
+ * /api/plantilla:
  *  post:
- *      description: Insertar un nuevo tema en el sistema
- *      tags: [Temas]
+ *      description: Insertar un nuevo plantilla en el sistema
+ *      tags: [Plantillas]
  *      requestBody:
  *          required: true
  *          content:
@@ -15,20 +15,17 @@
  *                  schema:
  *                      type: object
  *                      properties:
+ *                          titulo:
+ *                              type: string
+ *                              default: Condicionales
  *                          asignatura:
  *                              type: string
  *                              default: 60163b1352b5961950dc2720
- *                          nombre:
- *                              type: string
- *                              default: nginx
- *                          padre:
- *                              type: string
- *                              default: 6020b2001a31a21078d4934e
  *      responses:
  *          201:
- *              description: Tema ingresada con exito
+ *              description: Plantilla ingresada con exito
  *          400:
- *              description: Datos requeridos / El tema con ese nombre ya existe / Error al insertar en la base de datos
+ *              description: Datos requeridos / Error al insertar en la base de datos / La plantilla con ese título ya existe / Error al insertar en la base de datos
  *          401:
  *              description: Permisos insuficientes para realizar la accion
  *          500:
@@ -37,10 +34,32 @@
 
 /**
  * @swagger
- * /api/tema/{id}:
+ * /api/plantilla:
  *  get:
- *      description: Obtener todos los temas de la base de datos de una asignatura
- *      tags: [Temas]
+ *      description: Obtener todas las plantillas del usuario coordinador logueado
+ *      tags: [Plantillas]
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          description: ID Ejercicio
+ *          required: true
+ *          schema:
+ *            type: string
+ *      responses:
+ *          200:
+ *              description: Busqueda realizada con exito
+ *          404:
+ *              description: No se encontraron plantillas
+ *          500:
+ *              description: hubo un error en el servidor
+ */
+
+/**
+ * @swagger
+ * /api/plantilla/asignatura/{id}:
+ *  get:
+ *      description: Obtener todas las plantillas de una asignatura
+ *      tags: [Plantillas]
  *      parameters:
  *        - name: id
  *          in: path
@@ -52,23 +71,21 @@
  *          200:
  *              description: Busqueda realizada con exito
  *          404:
- *              description: No se encontraron temas
- *          401:
- *              description: Permisos insuficientes para realizar la accion
+ *              description: No se encontraron plantillas
  *          500:
  *              description: hubo un error en el servidor
  */
 
 /**
  * @swagger
- * /api/tema/padre/{id}:
+ * /api/plantilla/{id}:
  *  get:
- *      description: Obtener todos los temas de la base de datos de una asignatura
- *      tags: [Temas]
+ *      description: Obtener los datos de una plantilla por su id
+ *      tags: [Plantillas]
  *      parameters:
  *        - name: id
  *          in: path
- *          description: ID Asignatura
+ *          description: ID Ejercicio
  *          required: true
  *          schema:
  *            type: string
@@ -76,21 +93,21 @@
  *          200:
  *              description: Busqueda realizada con exito
  *          404:
- *              description: No se encontraron temas
+ *              description: No se encontraron plantillas
  *          500:
  *              description: hubo un error en el servidor
  */
 
 /**
  * @swagger
- * /api/tema/{id}:
+ * /api/plantilla/{id}:
  *  put:
- *      description: Modificar un tema por id
- *      tags: [Temas]
+ *      description: Modificar un plantilla por id
+ *      tags: [Plantillas]
  *      parameters:
  *        - name: id
  *          in: path
- *          description: ID Tema
+ *          description: ID Plantilla
  *          required: true
  *          schema:
  *            type: string
@@ -101,46 +118,40 @@
  *                  schema:
  *                      type: object
  *                      properties:
- *                          asignatura:
+ *                          titulo:
  *                              type: string
- *                              default: 60163b1352b5961950dc2720
- *                          nombre:
- *                              type: string
- *                              default: nginx
- *                          padre:
- *                              type: string
- *                              default: 6020b2001a31a21078d4934e
+ *                              default: Nuevo titulo
  *      responses:
  *          200:
- *              description: Tema modificado con exito
+ *              description: Plantilla modificado con exito
+ *          404:
+ *              description: Plantilla ha modificar no encontrada
  *          401:
  *              description: Permisos insuficientes para realizar la accion
- *          404:
- *              description: Tema ha modificar no encontrado
  *          500:
  *              description: hubo un error en el servidor
  */
 
 /**
  * @swagger
- * /api/tema/{id}:
+ * /api/plantilla/{id}:
  *  delete:
- *      description: eliminar un tema por id
- *      tags: [Temas]
+ *      description: eliminar un plantilla por id
+ *      tags: [Plantillas]
  *      parameters:
  *        - name: id
  *          in: path
- *          description: ID Tema
+ *          description: ID Plantilla
  *          required: true
  *          schema:
  *            type: string
  *      responses:
  *          200:
- *              description: Tema eliminado con exito
+ *              description: Plantilla eliminado con exito
+ *          404:
+ *              description: Plantilla a eliminar no encontrada
  *          401:
  *              description: Permisos insuficientes para realizar la accion
- *          404:
- *              description: Tema a eliminar no encontrado
  *          500:
  *              description: hubo un error en el servidor
  */

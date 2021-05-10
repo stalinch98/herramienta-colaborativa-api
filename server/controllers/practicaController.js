@@ -36,7 +36,7 @@ exports.crearPractica = async (req, res) => {
     const asignatura = await practicaCoordinador(plantilla)
 
     if (!asignatura) {
-      res.status(401).json({
+      res.status(400).json({
         msg: 'Error con la plantilla ingresada',
       })
       return
