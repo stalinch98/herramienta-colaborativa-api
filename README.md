@@ -36,3 +36,11 @@ Podemos verificar si se encuentra ejecutado la aplicacion con el siguiente coman
  
 * `pm2 list`
  
+### Documentación del API
+
+Al levantar el aplicativo se puede visitar la documentación de cada endpoint para ver que parametros son requeridos y una descripción de lo que hacen
+
+```http
+  GET /api-docs
+```
+
