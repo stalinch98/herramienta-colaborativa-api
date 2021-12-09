@@ -4,3 +4,9 @@ exports.fechaMayor = (inicio, fin) => {
   const f2 = new Date(fin)
   return f1 > f2 ? true : null
 }
+
+// Retorna un string con la primera en mayuscula
+exports.capitalize = (s) => {
+  if (typeof s !== "string") return "";
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};

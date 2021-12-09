@@ -11,5 +11,6 @@ router.get(
 )
 
 router.get('/usado/:id', authToken, reporteController.EjerciciosUsados)
+router.get('/tema/:id', authToken, reporteController.EjerciciosTema)
 
 module.exports = router

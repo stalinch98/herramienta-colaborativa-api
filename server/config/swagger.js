@@ -7,10 +7,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'https://herramienta-colaborativa-api.herokuapp.com',
-      },
-      {
-        url: 'http://localhost:1323',
+        url: 'https://quicklab-api.grupoia.ec',
       },
     ],
     components: {
