@@ -54,8 +54,6 @@ app.post('/upload', (req, res) => {
     return
   }
 
-  // console.log(req.protocol) // eslint-disable-line
-
   const { file } = req.files
   const extension = file.name.split('.')
   const nuevoNombre = `${file.md5}.${extension[extension.length - 1]}`
@@ -66,7 +64,6 @@ app.post('/upload', (req, res) => {
     if (err) {
       res.status(500).send(err)
     }
-
     res.json({
       location: `${req.protocol}://${req.get('host')}/images/${nuevoNombre}`,
     })
