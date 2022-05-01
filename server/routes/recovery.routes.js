@@ -3,7 +3,6 @@ const {check} = require('express-validator')
 const recoveryController = require('../controllers/recoveryController')
 
 const router = express.Router()
-
 router.post(
     '/',
     [
