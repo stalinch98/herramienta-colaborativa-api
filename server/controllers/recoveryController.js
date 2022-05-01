@@ -51,7 +51,7 @@ exports.recuperarContrasena = async (req, res) => {
             return
         }
         const emailData = await sendCode(usuarioEncontrado.correo, code, 'Recuperar contraseña', 'Su codigo de recuperacion es: ');
-        res.status(200).json({msg: emailData.message, code: emailData.hashedCode})
+        res.status(200).json({msg: emailData.message, code: emailData.hashedCode, userId: usuarioEncontrado._id})
 
     } catch (error) {
         res.status(500).json({msg: 'hubo un error en el servidor'})
