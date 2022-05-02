@@ -22,9 +22,9 @@ router.get('/docente', auth, usuarioController.buscarDocentes)
 
 router.get('/', auth, usuarioController.buscarUsuarios)
 
-router.get('/:id', auth, usuarioController.buscarUsuario)
+router.get('/:id', usuarioController.buscarUsuario)
 
-router.put('/:id', auth, usuarioController.modificarUsuario)
+router.put('/:id', usuarioController.modificarUsuario)
 
 router.delete('/:id', auth, usuarioController.eliminarUsuario)
 
