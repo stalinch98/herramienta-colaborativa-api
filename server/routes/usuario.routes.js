@@ -7,7 +7,6 @@ const router = express.Router()
 
 router.post(
   '/',
-  auth,
   [
     check('nombre', 'el nombre es obligatorio').not().isEmpty(),
     check('apellido', 'el apellido es obligatorio').not().isEmpty(),
