@@ -1,74 +1,85 @@
 const mongoose = require('mongoose')
 
-const { Schema, model } = mongoose
+const {Schema, model} = mongoose
 
 const EjerciciosSchema = new Schema(
-  {
-    titulo: {
-      type: String,
-      required: true,
-      trim: true,
-      lowercase: true,
-    },
-    descripcion: {
-      type: String,
-      trim: true,
-      lowercase: true,
-    },
+    {
+        titulo: {
+            type: String,
+            required: true,
+            trim: true,
+            lowercase: true,
+        },
+        descripcion: {
+            type: String,
+            trim: true,
+            lowercase: true,
+        },
 
-    dificultad: {
-      type: Number,
-      required: true,
-    },
+        dificultad: {
+            type: Number,
+            required: true,
+        },
 
-    ejercicio: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+        ejercicio: {
+            type: String,
+            required: true,
+            trim: true,
+        },
 
-    ejemplo: {
-      type: String,
-      trim: true,
-    },
+        ejemplo: {
+            type: String,
+            trim: true,
+        },
 
-    evaluacion: {
-      type: Number,
-      default: 0,
-    },
+        evaluacion: {
+            type: Number,
+            default: 0,
+        },
 
-    solucion: {
-      type: String,
-      trim: true,
-    },
+        solucion: {
+            type: String,
+            trim: true,
+        },
 
-    referencia: {
-      type: [{ type: Schema.Types.ObjectId, ref: 'Referencia' }],
-    },
+        referencia: {
+            type: [{type: Schema.Types.ObjectId, ref: 'Referencia'}],
+        },
 
-    tema: {
-      type: Schema.Types.ObjectId,
-      ref: 'Tema',
-    },
+        tema: {
+            type: Schema.Types.ObjectId,
+            ref: 'Tema',
+        },
 
-    docente: {
-      type: Schema.Types.ObjectId,
-      ref: 'Usuario',
-    },
+        docente: {
+            type: Schema.Types.ObjectId,
+            ref: 'Usuario',
+        },
 
-    archivado: {
-      type: Boolean,
-      default: false,
-    },
+        archivado: {
+            type: Boolean,
+            default: false,
+        },
 
-    asignatura: {
-      type: Schema.Types.ObjectId,
-      ref: 'Asignatura',
+        asignatura: {
+            type: Schema.Types.ObjectId,
+            ref: 'Asignatura',
+        },
+        periodo: {
+            type: Schema.Types.ObjectId,
+            ref: 'Periodo',
+        },
+        comentario: {
+            type: String,
+            required: false,
+            trim: true,
+            lowercase: true,
+            default: '',
+        },
     },
-  },
-  {
-    versionKey: false,
-  }
+    {
+        versionKey: false,
+    }
 )
 
 module.exports = model('Ejercicios', EjerciciosSchema)
