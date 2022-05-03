@@ -1,8 +1,8 @@
 const { validationResult } = require('express-validator')
 const Asignatura = require('../models/Asignatura')
 const Ejercicio = require('../models/Ejercicio')
-const Plantilla = require('../models/Plantilla')
 const Referencia = require('../models/Referencia')
+const Plantilla = require('../models/Plantilla')
 const Tema = require('../models/Tema')
 
 // crearAsignatura ingresa una asignatura en la base de datos
