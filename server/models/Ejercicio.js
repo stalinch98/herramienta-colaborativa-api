@@ -68,14 +68,7 @@ const EjerciciosSchema = new Schema(
         periodo: {
             type: Schema.Types.ObjectId,
             ref: 'Periodo',
-        },
-        comentario: {
-            type: String,
-            required: false,
-            trim: true,
-            lowercase: true,
-            default: '',
-        },
+        }
     },
     {
         versionKey: false,

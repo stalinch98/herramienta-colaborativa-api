@@ -249,7 +249,6 @@ exports.buscarEjercicioAsignatura = async (req, res) => {
                     descripcion: ejercicio.descripcion,
                     dificultad: ejercicio.dificultad,
                     tema: ejercicio.tema,
-                    comentario: ejercicio.comentario,
                     asignatura: ejercicio.asignatura,
                     docente: ejercicio.docente,
                     evaluacion: ejercicio.evaluacion,
@@ -257,8 +256,6 @@ exports.buscarEjercicioAsignatura = async (req, res) => {
                     calificacion: calificacionEjer,
                     periodo: ejercicio.periodo,
                 }
-                // console.log(ejer.calificacion)
-                // // ejercicio.calificacion = calificacionEjer
                 nuevoEjercicio.push(ejer)
             })
         )
@@ -276,10 +273,6 @@ exports.buscarEjercicioAsignatura = async (req, res) => {
         res.status(500).json({msg: 'hubo un error en el servidor'})
     }
 }
-
-// const numUsado = async item => {
-//   return Practica.find({ tema: plantilla.temas })
-// }
 
 // buscarEjercicioPlantilla Busca todas las ejercicios en la base de datos del tema de una plantilla
 exports.buscarEjercicioPlantilla = async (req, res) => {
@@ -322,8 +315,6 @@ exports.buscarEjercicioPlantilla = async (req, res) => {
                     archivado: ejercicio.archivado,
                     usado: num.length,
                 }
-                // console.log(ejer.calificacion)
-                // // ejercicio.calificacion = calificacionEjer
                 nuevoEjercicio.push(ejer)
             })
         )
