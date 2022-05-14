@@ -9,5 +9,3 @@ Y
 package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
 H
 server/models/Periodo.js,7\d\7da0467ad15f0635d0b952cbd3bbd5ae640581a4
-K
-server/models/Asignatura.js,5\b\5bf675e574b306d0baa2f0933cf899196ed5e7ec

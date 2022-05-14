@@ -32,8 +32,6 @@ exports.CalificacionEjercicios = async (req, res) => {
           archivado: ejercicio.archivado,
           calificacion: calificacionEjer,
         }
-        // console.log(ejer.calificacion)
-        // // ejercicio.calificacion = calificacionEjer
         nuevoEjercicio.push(ejer)
       })
     )
@@ -80,8 +78,6 @@ exports.EjerciciosUsados = async (req, res) => {
             path: 'plantilla',
             select: 'titulo',
           })
-
-        console.log(num)
 
         const ejer = {
           _id: ejercicio._id,
