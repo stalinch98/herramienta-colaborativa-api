@@ -55,11 +55,11 @@ exports.CalificacionEjercicios = async (req, res) => {
 
 // CalificacionEjercicios reporte de las calificaciones de los ejercicios del usuario logeado por asignatura
 exports.EjerciciosUsados = async (req, res) => {
+
   try {
     // buscar en la db
     const ejercicios = await Ejercicio.find({
-      asignatura: req.params.id,
-      docente: req.logueado.id,
+      asignatura: req.params.id
     })
 
     // si no hay datos retornar 404 not found
@@ -72,6 +72,7 @@ exports.EjerciciosUsados = async (req, res) => {
     const nuevoEjercicio = []
     await Promise.all(
       ejercicios.map(async (ejercicio) => {
+
         const num = await Practica.find({
           ejercicios: ejercicio._id,
         })
@@ -89,8 +90,6 @@ exports.EjerciciosUsados = async (req, res) => {
           archivado: ejercicio.archivado,
           usado: num,
         }
-        // console.log(ejer.calificacion)
-        // // ejercicio.calificacion = calificacionEjer
         nuevoEjercicio.push(ejer)
       })
     )
