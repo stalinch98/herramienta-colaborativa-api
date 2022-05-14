@@ -7,8 +7,7 @@ exports.CalificacionEjercicios = async (req, res) => {
   try {
     // buscar en la db
     const ejercicios = await Ejercicio.find({
-      asignatura: req.params.id,
-      docente: req.logueado.id,
+      asignatura: req.params.id
     })
 
     // si no hay datos retornar 404 not found
@@ -81,6 +80,8 @@ exports.EjerciciosUsados = async (req, res) => {
             path: 'plantilla',
             select: 'titulo',
           })
+
+        console.log(num)
 
         const ejer = {
           _id: ejercicio._id,
