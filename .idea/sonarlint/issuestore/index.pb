@@ -21,3 +21,17 @@ K
 server/models/Comentario.js,6\9\6961f9270443a9ee44701cb85026db3169d48ad4
 W
 'server/controllers/reporteController.js,7\f\7fd6f7817bdb27623790ae5326534986e2031ae1
+Z
+*server/controllers/comentarioController.js,3\7\37548d057dcbbc89d4736b4db44a65239e1e8dd8
+R
+"server/routes/comentario.routes.js,a\c\ac138ba9c57dd532f65dd83c2c16b3f6b002defd
+\
+,server/controllers/calificacionController.js,1\8\182d7aa0cb6e4dfd5508ca8d95c070dc088188e6
+Z
+*server/controllers/asignaturaController.js,a\9\a941a2ade893c94dddb5e4131a5f3eaa5708729e
+Y
+)server/controllers/plantillaController.js,c\8\c85383aab40c4fce03546cd4d6a497aed89faaf3
+J
+server/models/Plantilla.js,1\b\1b51bed2a4ed8af018df016883519f2c0c77c40c
+K
+server/models/Asignatura.js,5\b\5bf675e574b306d0baa2f0933cf899196ed5e7ec
