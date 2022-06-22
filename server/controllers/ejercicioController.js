@@ -77,7 +77,7 @@ exports.crearEjercicio = async (req, res) => {
 }
 
 // buscarEjercicios Busca todas las ejercicios en la base de datos
-exports.buscarEjercicios = async (req, res) => {
+exports.buscarEjercicios = async (_req, res) => {
     try {
         // buscar en la db
         const ejercicios = await Ejercicio.find()

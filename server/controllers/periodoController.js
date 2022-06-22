@@ -49,7 +49,7 @@ exports.crearPeriodo = async (req, res) => {
 }
 
 // buscarPeriodo Busca todos periodos en la base de datos
-exports.buscarPeriodo = async (req, res) => {
+exports.buscarPeriodo = async (_req, res) => {
   try {
     // buscar en la db
     const carreras = await Periodo.find()

@@ -46,7 +46,7 @@ app.use('/api/practica', require('./routes/practica.routes'))
 app.use('/api/reportes', require('./routes/reportes.routes'))
 app.use('/api/recovery', require('./routes/recovery.routes'))
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
     res.send('Server UP')
 })
 

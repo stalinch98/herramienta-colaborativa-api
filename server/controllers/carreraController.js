@@ -39,7 +39,7 @@ exports.crearCarrera = async (req, res) => {
 }
 
 // buscarCarreras Busca todas las careras en la base de datos
-exports.buscarCarreras = async (req, res) => {
+exports.buscarCarreras = async (_req, res) => {
   try {
     // buscar en la db
     const carreras = await Carrera.find()

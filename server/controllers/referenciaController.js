@@ -45,7 +45,7 @@ exports.crearReferencia = async (req, res) => {
 }
 
 // buscarReferencias Busca todos los referencias en la base de datos
-exports.buscarReferencias = async (req, res) => {
+exports.buscarReferencias = async (_req, res) => {
   try {
     // buscar en la db
     const referencias = await Referencia.find()
