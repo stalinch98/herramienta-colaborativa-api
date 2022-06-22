@@ -36,7 +36,7 @@ exports.crearUsuario = async (req, res) => {
     }
 }
 
-exports.buscarUsuarios = async (req, res) => {
+exports.buscarUsuarios = async (_req, res) => {
     try {
         const usuarioEncontrado = await Usuario.find().select('-contrasena')
         if (!usuarioEncontrado) {
@@ -52,7 +52,7 @@ exports.buscarUsuarios = async (req, res) => {
     }
 }
 
-exports.buscarDocentes = async (req, res) => {
+exports.buscarDocentes = async (_req, res) => {
     try {
         const usuarioEncontrado = await Usuario.find({rol: 'docente'}).select(
             '-contrasena'

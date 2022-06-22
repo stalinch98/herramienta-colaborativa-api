@@ -73,7 +73,7 @@ exports.crearPractica = async (req, res) => {
 }
 
 // buscarPracticas Busca todas las practicas en la base de datos
-exports.buscarPracticas = async (req, res) => {
+exports.buscarPracticas = async (_req, res) => {
   try {
     // buscar en la db
     const practicas = await Practica.find()
@@ -194,7 +194,7 @@ exports.eliminarPractica = async (req, res) => {
 }
 
 // buscarPracticaAsignatura Busca todas las practicas en la base de datos de una asignatura
-exports.buscarPracticaAsignatura = async (req, res) => {
+exports.buscarPracticaAsignatura = async (_req, res) => {
   try {
     // buscar en la db
     const practicas = await Practica.find()

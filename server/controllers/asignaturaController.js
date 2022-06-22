@@ -56,7 +56,7 @@ exports.crearAsignatura = async (req, res) => {
 }
 
 // buscarAsignaturas Busca todas las asignaturas en la base de datos
-exports.buscarAsignaturas = async (req, res) => {
+exports.buscarAsignaturas = async (_req, res) => {
     try {
         // buscar en la db
         const asignaturas = await Asignatura.find()
