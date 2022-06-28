@@ -24,7 +24,6 @@ exports.crearAsignatura = async (req, res) => {
             return
         }
 
-
         // revisar si ya existe en caso de existir retornarla
         const {codigo} = req.body
         req.body.periodo = periodoEncontrada._id
