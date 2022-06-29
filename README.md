@@ -2,7 +2,7 @@
  
 Este proyecto es el backend del Proyecto técnico para crear una herramienta colaborativa en Internet que permita gestionar las prácticas de laboratorio del claustro docente de la Universidad Politécnica Salesiana. 
  
-También puede revisar la parte visual en el repositorio: [ Herramienta colaborativa ](https://github.com/jeffqev/herramienta-colaborativa)
+También puede revisar la parte visual en el repositorio: [ Herramienta colaborativa ](https://github.com/stalinch98/herramienta-colaborativa)
  
 Si se desea entender mejor como fue contruido el proyecto, cada modulo realizado cuenta con su tarjeta en el [ tablero kanban ](https://github.com/jeffqev/herramienta-colaborativa-api/projects/1) cada tarjeta esta asociada a un pull request donde esta descrito lo que se hace y el codigo que fue modificado
 ## Pre requisitos para levantar el proyecto
