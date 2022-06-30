@@ -1,5 +1,4 @@
 const {validationResult} = require('express-validator')
-const pdf = require('html-pdf')
 
 const Practica = require('../models/Practica')
 const Periodo = require('../models/Periodo')
@@ -277,12 +276,6 @@ exports.PDFPractica = async (req, res) => {
             return
         }
 
-        const config = {
-            format: 'A4',
-            orientation: 'portrait',
-            border: '0.3in',
-        }
-
         // Validar tipo de descarga
         let content = ''
 
@@ -299,14 +292,9 @@ exports.PDFPractica = async (req, res) => {
             return
         }
 
-        pdf.create(content, config).toStream((err, stream) => {
-            if (err) {
-                res.json({msg: 'error'})
-            }
-            res.setHeader('Content-Type', 'application/pdf')
-            res.setHeader('Content-Disposition', 'attachment; filename=data.pdf')
-
-            stream.pipe(res)
+        res.status(200).json({
+            msg: 'Busqueda realizada con exito',
+            data: content,
         })
     } catch (error) {
         res.status(500).json({msg: 'hubo un error en el servidor'})
