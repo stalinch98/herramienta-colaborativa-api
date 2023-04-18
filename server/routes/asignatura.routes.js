@@ -2,8 +2,8 @@ const express = require('express')
 const { check } = require('express-validator')
 
 const authToken = require('../middleware/logeado')
-const administrador = require('../middleware/administrador')
 const asignaturaController = require('../controllers/asignaturaController')
+const administrador = require('../middleware/administrador')
 
 const router = express.Router()
 
